@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# API key, cities file
+weather_api_key.txt
+city.list.json
+current.city.list.json
+
