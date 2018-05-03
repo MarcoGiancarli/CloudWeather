@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask import Response
+from flask import make_response
 import requests
 import json
 import pygtrie
@@ -22,6 +22,7 @@ def create_app(test_config=None):
     #except OSError:
     #    pass
 
+    FORECAST_URL = 'https://api.openweathermap.org/data/2.5/forecast'
     WEATHER_API_KEY = None
     with open('weather_api_key.txt', 'r') as key_file:
         WEATHER_API_KEY = key_file.readline().strip()
@@ -52,7 +53,7 @@ def create_app(test_config=None):
         print 'Loading zip codes...'
         for line in zip_codes_file:
             zip_code = line.strip()
-            zip_codes_trie[zip_code] = True
+            zip_codes_trie[zip_code] = zip_code
         print 'Done.'
 
 
@@ -66,7 +67,7 @@ def create_app(test_config=None):
         prefix = request.args.get('prefix', None)
         if prefix is None or len(prefix) == 0:
             print request.args, prefix
-            return json.dumps([])
+            return json.dumps({'suggestions': []})
         
         # Make queries case insensitive by always using title-capitalization
         prefix = " ".join(word.capitalize() for word in prefix.split())
@@ -79,7 +80,7 @@ def create_app(test_config=None):
             try:
                 results = list(zip_codes_trie.items(prefix=prefix))
             except KeyError:
-                return json.dumps([])
+                return json.dumps({'suggestions': []})
         if len(results) > 6:
             results = results[:6]
         # only supply the keys
@@ -91,18 +92,48 @@ def create_app(test_config=None):
     def forecast():
         """ Display the 5-day forecast for a selected city/zip. Relays JSON 
             response from openweathermap.org API. """
+        # TODO: add a token to the page that expires to prevent abuse
         location = request.args.get('location', None)
         if location is None:
-            response = make_response('Invalid location')
-            response.status_code = 400
-            return response
+            error_response = make_response('No location specified')
+            error_response.status_code = 400
+            return error_response
 
-        if cities_trie.has_node(location) == pygtrie.Trie.HAS_VALUE:
-            city_id = cities_trie[location]
-        elif zip_codes_trie.has_node(location) == pygtrie.Trie.HAS_VALUE:
-            zip_code = location
+        url_params = {
+            'APPID': WEATHER_API_KEY,
+        }
 
-        return 'forecast'
+        # for each trie, try to find the first match. this lets us accept 
+        # the partial name for a city, e.g. 'Newark, NJ' for 'Newark, NJ, US'
+        found_match = False
+        for (data_set, param) in [(cities_trie, 'id'), 
+                                  (zip_codes_trie, 'zip')]:
+            matches = data_set.iteritems(prefix=location)
+            match = next(matches, None)
+            if match is not None:
+                url_params[param] = match[1]
+                found_match = True
+                break
+        if not found_match:
+            error_response = make_response('Invalid location')
+            error_response.status_code = 400
+            return error_response
+
+        #if cities_trie.has_node(location) == pygtrie.Trie.HAS_VALUE:
+        #    city_id = cities_trie[location]
+        #    url_params['id'] = city_id
+        #elif zip_codes_trie.has_node(location) == pygtrie.Trie.HAS_VALUE:
+        #    zip_code = location
+        #    url_params['zip'] = zip_code
+        #else:
+        #    error_response = make_response('Invalid location')
+        #    error_response.status_code = 400
+        #    return error_response
+
+        weather_response = requests.get(FORECAST_URL, params=url_params)
+        return (weather_response.text, 
+                weather_response.status_code, 
+                weather_response.headers.items())
 
     return app
 
