@@ -10,7 +10,7 @@
     <title>My Weather Forecast</title>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/custom.css" rel="stylesheet">
+    <link href="static/css/custom.css" rel="stylesheet">
   </head>
 
   <body>
@@ -29,15 +29,17 @@
       <div class="main-content">
         <h1>My Weather Forecast</h1>
         <form class="col-md-6 mx-auto">
-            <input class="form-control city-input" id="cityInput" type="text" placeholder="City">
+          <input class="form-control loc-input" name="location" id="locationInput" type="text" placeholder="City or US zip code">
         </form>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+        <p class="lead">Enter your city or a US zip code to get the current weather and 5-day forecast.</p>
       </div>
 
     </main> 
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js"></script>
+    <script src="static/js/autocomplete.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   </body>
