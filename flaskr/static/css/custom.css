@@ -1,5 +1,21 @@
+/*.bg-dark {
+    background: #252525;
+}*/
+
 body {
+    background: rgba(19, 22, 24, 0.92);
     padding-top: 4rem;
+    height: 100%;
+}
+
+html {
+    background-image: url("https://images.pexels.com/photos/110874/pexels-photo-110874.jpeg?auto=compress&cs=tinysrgb&w=1920");
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
 }
 
 .main-content {
@@ -16,6 +32,7 @@ body {
     border: 1px solid #999; 
     background: #FFF; 
     overflow: auto; 
+    color: #333;
 }
 
 .autocomplete-suggestion { 
@@ -41,3 +58,57 @@ body {
     display: block; 
     border-bottom: 1px solid #000; 
 }
+
+.forecast-row {
+}
+
+.forecast-col {
+    margin: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.forecast-container {
+}
+
+.forecast-description {
+    font-size: 10pt;
+}
+
+.forecast-temp-box {
+    display: inline-block;
+}
+
+.forecast-temp-high {
+    font-size: 50pt;
+    line-height: 50pt;
+    display: table-cell;
+    vertical-align: middle;
+    margin-top: -5pt;
+    margin-bottom: -5pt;
+}
+
+.forecast-temp-box-right {
+    font-size: 22pt;
+    line-height: 25pt;
+    display: table-cell;
+}
+
+.forecast-temp-box-right > span {
+    display: block;
+}
+
+.forecast-details {
+    font-size: 10pt;
+}
+
+.forecast-details > p {
+    margin: 2px;
+}
+
+.hide {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+}
+
