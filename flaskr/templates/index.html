@@ -31,9 +31,21 @@
         <p class="lead">Enter a city or a US zip code to get the current weather and 5-day forecast.</p>
       </div>
     
-      <div class="container hide" id="forecastContainer">
+      <!--<div class="container hide" id="forecastContainer">-->
+      <div class="container inner-container" id="forecastContainer">
+        <h2 class="current-city-name">City Name</h2>
+        <div class="row justify-content-center">
+          <div class="col-xs-auto current-conditions-temp">XX&#176;F</div>
+          <div class="col-xs-auto current-conditions-details">
+            <div>
+              <p class="current-conditions-desc">Weather description</p>
+              <p class="current-conditions-humid">Humidity: %</p>
+              <p class="current-conditions-wind">Wind Speed: mph</p>
+            </div>
+          </div>
+        </div>
         <div class="row">
-          <div class="col-md bg-dark forecast-col" id="forecast-day-0">
+          <div class="col-lg bg-dark forecast-col" id="forecast-day-0">
             <p class="forecast-date">Day Month Date</p>
             <div class="row no-gutters">
               <div class="col-xs-auto forecast-temp-box">
@@ -51,7 +63,7 @@
               <p class="forecast-wind">Peak Wind Speed: mph</p>
             </div>
           </div>
-          <div class="col-md bg-dark forecast-col" id="forecast-day-1">
+          <div class="col-lg bg-dark forecast-col" id="forecast-day-1">
             <p class="forecast-date">Day Month Date</p>
             <div class="row no-gutters">
               <div class="col-xs-auto forecast-temp-box">
@@ -69,7 +81,7 @@
               <p class="forecast-wind">Peak Wind Speed: mph</p>
             </div>
           </div>
-          <div class="col-md bg-dark forecast-col" id="forecast-day-2">
+          <div class="col-lg bg-dark forecast-col" id="forecast-day-2">
             <p class="forecast-date">Day Month Date</p>
             <div class="row no-gutters">
               <div class="col-xs-auto forecast-temp-box">
@@ -87,7 +99,7 @@
               <p class="forecast-wind">Peak Wind Speed: mph</p>
             </div>
           </div>
-          <div class="col-md bg-dark forecast-col" id="forecast-day-3">
+          <div class="col-lg bg-dark forecast-col" id="forecast-day-3">
             <p class="forecast-date">Day Month Date</p>
             <div class="row no-gutters">
               <div class="col-xs-auto forecast-temp-box">
@@ -105,7 +117,7 @@
               <p class="forecast-wind">Peak Wind Speed: mph</p>
             </div>
           </div>
-          <div class="col-md bg-dark forecast-col" id="forecast-day-4">
+          <div class="col-lg bg-dark forecast-col" id="forecast-day-4">
             <p class="forecast-date">Day Month Date</p>
             <div class="row no-gutters">
               <div class="col-xs-auto forecast-temp-box">

@@ -20,10 +20,31 @@ function getForecast(suggestion) {
             dailyWeatherData = formatWeatherData(data);
 
             var cityName = data.city.name;
+            var currentTempString = 
+                    Math.round(convertToF(data.list[0].main.temp)) + 
+                    String.fromCharCode(176) + 'F';
+            var currentDescString = 
+                    sentenceCapitalize(data.list[0].weather[0].description);
+            var currentHumidString = 'Humidity: ' + 
+                    Math.round(data.list[0].main.humidity) + '%';
+            var currentWindString = 'Wind Speed: ' + 
+                    Math.round(convertToMph(data.list[0].wind.speed)) + 'mph';
+
+            forecastContainer.find('.current-city-name')
+                    .text(cityName);
+            forecastContainer.find('.current-conditions-temp')
+                    .text(currentTempString);
+            forecastContainer.find('.current-conditions-desc')
+                    .text(currentDescString);
+            forecastContainer.find('.current-conditions-humid')
+                    .text(currentHumidString);
+            forecastContainer.find('.current-conditions-wind')
+                    .text(currentWindString);
+
+            var currentMain = data.list[0].weather[0].main;
             // display city name and current conditions
-            // display current temp, humid, weather type
+            // display city name, temp, humid, wind, desc, background image
             // get stock photo as background for weather type
-            var currentWeather = {};
 
             for(var i=0; i<5; i++) {
                 var col = $('#forecast-day-' + i);
@@ -31,15 +52,14 @@ function getForecast(suggestion) {
                         dailyWeatherData[i].date;
                 var highString = Math.round(dailyWeatherData[i].high);
                 var lowString = Math.round(dailyWeatherData[i].low);
-                var descString = 
-                        dailyWeatherData[i].desc.charAt(0).toUpperCase() +
-                        dailyWeatherData[i].desc.slice(1);
+                var descString = sentenceCapitalize(dailyWeatherData[i].desc);
                 var humidString = 'Peak Humidity: ' + 
-                        dailyWeatherData[i].peakHumid.toFixed(1) + '%';
+                        Math.round(dailyWeatherData[i].peakHumid) + '%';
                 var windString = 'Peak Wind Speed: ' + 
-                        dailyWeatherData[i].peakWind.toFixed(1) + 'mph';
+                        Math.round(dailyWeatherData[i].peakWind) + 'mph';
                 var iconImg = '<img src="http://openweathermap.org/img/w/' +
                         dailyWeatherData[i].icon + '.png"/>';
+
                 col.find('.forecast-date').text(dateString);
                 col.find('.forecast-temp-high').text(highString);
                 col.find('.forecast-temp-low').text(lowString);
@@ -124,7 +144,7 @@ function reformat3Hour(weatherReport) {
         'high' : convertToF(weatherReport.main.temp_max),
         'low' : convertToF(weatherReport.main.temp_min),
         'humid' : weatherReport.main.humidity,
-        'wind' : weatherReport.wind.speed,
+        'wind' : convertToMph(weatherReport.wind.speed),
         'main' : weatherReport.weather[0].main,
         'desc' : weatherReport.weather[0].description,
         'icon' : weatherReport.weather[0].icon
@@ -135,3 +155,10 @@ function convertToF(temp) {
     return (temp - 273.15) * 1.8 + 32;
 }
 
+function convertToMph(speed) {
+    return speed * 2.23694;
+}
+
+function sentenceCapitalize(sentence) {
+    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+}

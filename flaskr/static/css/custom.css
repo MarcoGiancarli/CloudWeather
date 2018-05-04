@@ -104,6 +104,58 @@ html {
     height: 50pt;
 }
 
+.current-conditions {
+    display: inline-block;
+}
+
+.current-conditions-temp {
+    display: table-cell;
+    font-size: 70pt;
+    vertical-align: middle;
+    margin-top: -5pt;
+    margin-bottom: -5pt;
+}
+
+.current-conditions-details {
+    /* Internet Explorer 10 */
+    display:-ms-flexbox;
+    -ms-flex-pack:center;
+    -ms-flex-align:center;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari, Opera, and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+
+.current-conditions-details > div {
+    margin: 7px;
+}
+
+.current-conditions-details > div > p {
+    font-size: 16pt;
+    margin: -4px;
+}
+
+.current-city-name {
+    text-align: center;
+}
+
+.inner-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .hide {
     position: absolute !important;
     top: -9999px !important;
