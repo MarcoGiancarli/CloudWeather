@@ -14,38 +14,45 @@ function getForecast(suggestion) {
     var forecastURL = '/api/forecast?location=' + 
             encodeURIComponent(suggestion.value);
     $.getJSON(forecastURL, function(data) {
-        var cityName = data.city.name;
-        // display city name and current conditions
-        // display current temp, humid, weather type
-        // get stock photo as background for weather type
-        var currentWeather = {};
+        var forecastContainer = $('#forecastContainer');
+        forecastContainer.fadeOut(300, function() {
 
-        dailyWeatherData = formatWeatherData(data);
-        for(var i=0; i<5; i++) {
-            var col = $('#forecast-day-' + i);
-            var dateString = dailyWeatherData[i].dayOfWeek + ', ' +
-                    dailyWeatherData[i].date;
-            var highString = Math.round(dailyWeatherData[i].high);
-            var lowString = Math.round(dailyWeatherData[i].low);
-            var descString = dailyWeatherData[i].desc.charAt(0).toUpperCase() +
-                    dailyWeatherData[i].desc.slice(1);
-            var humidString = 'Peak Humidity: ' + 
-                    dailyWeatherData[i].peakHumid.toFixed(1) + '%';
-            var windString = 'Peak Wind Speed: ' + 
-                    dailyWeatherData[i].peakWind.toFixed(1) + 'mph';
-            var iconImg = '<img src="http://openweathermap.org/img/w/' +
-                    dailyWeatherData[i].icon + '.png"/>';
-            col.find('.forecast-date').text(dateString);
-            col.find('.forecast-temp-high').text(highString);
-            col.find('.forecast-temp-low').text(lowString);
-            col.find('.forecast-desc').text(descString);
-            col.find('.forecast-humid').text(humidString);
-            col.find('.forecast-wind').text(windString);
-            col.find('.forecast-icon').html(iconImg);
-        }
+            dailyWeatherData = formatWeatherData(data);
 
-        // make the forecast visible after the content is loaded
-        $('#forecastContainer').removeClass('hide');
+            var cityName = data.city.name;
+            // display city name and current conditions
+            // display current temp, humid, weather type
+            // get stock photo as background for weather type
+            var currentWeather = {};
+
+            for(var i=0; i<5; i++) {
+                var col = $('#forecast-day-' + i);
+                var dateString = dailyWeatherData[i].dayOfWeek + ', ' +
+                        dailyWeatherData[i].date;
+                var highString = Math.round(dailyWeatherData[i].high);
+                var lowString = Math.round(dailyWeatherData[i].low);
+                var descString = 
+                        dailyWeatherData[i].desc.charAt(0).toUpperCase() +
+                        dailyWeatherData[i].desc.slice(1);
+                var humidString = 'Peak Humidity: ' + 
+                        dailyWeatherData[i].peakHumid.toFixed(1) + '%';
+                var windString = 'Peak Wind Speed: ' + 
+                        dailyWeatherData[i].peakWind.toFixed(1) + 'mph';
+                var iconImg = '<img src="http://openweathermap.org/img/w/' +
+                        dailyWeatherData[i].icon + '.png"/>';
+                col.find('.forecast-date').text(dateString);
+                col.find('.forecast-temp-high').text(highString);
+                col.find('.forecast-temp-low').text(lowString);
+                col.find('.forecast-desc').text(descString);
+                col.find('.forecast-humid').text(humidString);
+                col.find('.forecast-wind').text(windString);
+                col.find('.forecast-icon').html(iconImg);
+            }
+
+            // make the forecast visible only after the content is loaded
+            forecastContainer.removeClass('hide');
+            forecastContainer.fadeIn(300);
+        });
     });
 }
 
