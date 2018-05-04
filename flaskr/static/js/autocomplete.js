@@ -16,25 +16,36 @@ function getForecast(suggestion) {
     $.getJSON(forecastURL, function(data) {
         var cityName = data.city.name;
         // display city name and current conditions
+        // display current temp, humid, weather type
+        // get stock photo as background for weather type
         var currentWeather = {};
 
         dailyWeatherData = formatWeatherData(data);
-        $('#forecastContainer').removeClass('hide');
         for(var i=0; i<5; i++) {
             var col = $('#forecast-day-' + i);
+            var dateString = dailyWeatherData[i].dayOfWeek + ', ' +
+                    dailyWeatherData[i].date;
             var highString = Math.round(dailyWeatherData[i].high);
             var lowString = Math.round(dailyWeatherData[i].low);
+            var descString = dailyWeatherData[i].desc.charAt(0).toUpperCase() +
+                    dailyWeatherData[i].desc.slice(1);
             var humidString = 'Peak Humidity: ' + 
                     dailyWeatherData[i].peakHumid.toFixed(1) + '%';
             var windString = 'Peak Wind Speed: ' + 
                     dailyWeatherData[i].peakWind.toFixed(1) + 'mph';
+            var iconImg = '<img src="http://openweathermap.org/img/w/' +
+                    dailyWeatherData[i].icon + '.png"/>';
+            col.find('.forecast-date').text(dateString);
             col.find('.forecast-temp-high').text(highString);
             col.find('.forecast-temp-low').text(lowString);
+            col.find('.forecast-desc').text(descString);
             col.find('.forecast-humid').text(humidString);
             col.find('.forecast-wind').text(windString);
+            col.find('.forecast-icon').html(iconImg);
         }
-        // display current temp, humid, weather type
-        // get stock photo as background for weather type
+
+        // make the forecast visible after the content is loaded
+        $('#forecastContainer').removeClass('hide');
     });
 }
 
@@ -85,6 +96,17 @@ function formatWeatherData(data) {
             prevDay.dataPoints.push(weatherReport);
         }
     }
+    
+    // select weather description based on current or mid-day weather
+    // note: we're only guaranteed full days of data for indices 1-4
+    dailyWeather[0].main = dailyWeather[0].dataPoints[0].main;
+    dailyWeather[0].desc = dailyWeather[0].dataPoints[0].desc;
+    dailyWeather[0].icon = dailyWeather[0].dataPoints[0].icon;
+    for(var i=1; i<5; i++) {
+        dailyWeather[i].main = dailyWeather[i].dataPoints[4].main;
+        dailyWeather[i].desc = dailyWeather[i].dataPoints[4].desc;
+        dailyWeather[i].icon = dailyWeather[i].dataPoints[4].icon;
+    }
 
     return dailyWeather;
 }
@@ -97,7 +119,8 @@ function reformat3Hour(weatherReport) {
         'humid' : weatherReport.main.humidity,
         'wind' : weatherReport.wind.speed,
         'main' : weatherReport.weather[0].main,
-        'desc' : weatherReport.weather[0].description
+        'desc' : weatherReport.weather[0].description,
+        'icon' : weatherReport.weather[0].icon
     }
 }
 

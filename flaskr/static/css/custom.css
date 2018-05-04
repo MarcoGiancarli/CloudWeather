@@ -6,6 +6,7 @@ body {
     background: rgba(19, 22, 24, 0.92);
     padding-top: 4rem;
     height: 100%;
+    overflow: auto;
 }
 
 html {
@@ -16,6 +17,7 @@ html {
     -o-background-size: cover;
     background-size: cover;
     height: 100%;
+    overflow: auto;
 }
 
 .main-content {
@@ -59,20 +61,10 @@ html {
     border-bottom: 1px solid #000; 
 }
 
-.forecast-row {
-}
-
 .forecast-col {
     margin: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
-}
-
-.forecast-container {
-}
-
-.forecast-description {
-    font-size: 10pt;
 }
 
 .forecast-temp-box {
@@ -98,12 +90,18 @@ html {
     display: block;
 }
 
+.forecast-date,
 .forecast-details {
     font-size: 10pt;
 }
 
+.forecast-date,
 .forecast-details > p {
     margin: 2px;
+}
+
+.forecast-icon > img {
+    height: 50pt;
 }
 
 .hide {
