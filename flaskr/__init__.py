@@ -70,7 +70,8 @@ def create_app(test_config=None):
             return json.dumps({'suggestions': []})
         
         # Make queries case insensitive by always using title-capitalization
-        prefix = " ".join(word.capitalize() for word in prefix.split())
+        #prefix = " ".join(word.capitalize() for word in prefix.split())
+        prefix = fix_capitalization(prefix)
 
         try:
             # TODO: make a wrapper generator and only use the first 6 values
@@ -98,6 +99,9 @@ def create_app(test_config=None):
             error_response = make_response('No location specified')
             error_response.status_code = 400
             return error_response
+        
+        # Make queries case insensitive by always using title-capitalization
+        location = fix_capitalization(location)
 
         url_params = {
             'APPID': WEATHER_API_KEY,
@@ -109,7 +113,10 @@ def create_app(test_config=None):
         for (data_set, param) in [(cities_trie, 'id'), 
                                   (zip_codes_trie, 'zip')]:
             matches = data_set.iteritems(prefix=location)
-            match = next(matches, None)
+            try:
+                match = next(matches, None)
+            except KeyError:
+                match = None
             if match is not None:
                 url_params[param] = match[1]
                 found_match = True
@@ -118,17 +125,6 @@ def create_app(test_config=None):
             error_response = make_response('Invalid location')
             error_response.status_code = 400
             return error_response
-
-        #if cities_trie.has_node(location) == pygtrie.Trie.HAS_VALUE:
-        #    city_id = cities_trie[location]
-        #    url_params['id'] = city_id
-        #elif zip_codes_trie.has_node(location) == pygtrie.Trie.HAS_VALUE:
-        #    zip_code = location
-        #    url_params['zip'] = zip_code
-        #else:
-        #    error_response = make_response('Invalid location')
-        #    error_response.status_code = 400
-        #    return error_response
 
         weather_response = requests.get(FORECAST_URL, params=url_params)
         return (weather_response.text, 
@@ -214,4 +210,13 @@ def get_state_from_link(link):
         if link.endswith(state.replace(' ', '_')):
             return state_abbrevs[state]
     return None
+
+def fix_capitalization(location):
+    location_parts = location.split(',', 1)
+    city_part = location_parts[0]
+    if len(location_parts) > 1:
+        state_country_part = location_parts[1]
+        return city_part.title() + ',' + state_country_part.upper()
+    else:
+        return city_part.title()
 

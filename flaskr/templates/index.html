@@ -25,14 +25,13 @@
 
       <div class="main-content">
         <h1>MyWeatherApp 5-Day Forecast</h1>
-        <form class="col-md-6 mx-auto">
-          <input class="form-control loc-input" name="location" id="locationInput" type="text" placeholder="City or US zip code">
+        <form id="locationForm" class="col-md-6 mx-auto">
+          <input class="form-control loc-input" name="location" id="locationInput" type="search" placeholder="City or US zip code">
         </form>
         <p class="lead">Enter a city or a US zip code to get the current weather and 5-day forecast.</p>
       </div>
     
-      <!--<div class="container hide" id="forecastContainer">-->
-      <div class="container inner-container" id="forecastContainer">
+      <div class="container inner-container hide" id="forecastContainer">
         <h2 class="current-city-name">City Name</h2>
         <div class="row justify-content-center">
           <div class="col-xs-auto current-conditions-temp">XX&#176;F</div>

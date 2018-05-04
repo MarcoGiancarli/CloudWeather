@@ -10,7 +10,7 @@ body {
 }
 
 html {
-    background-image: url("https://images.pexels.com/photos/110874/pexels-photo-110874.jpeg?auto=compress&cs=tinysrgb&w=1920");
+    background-image: url("/static/img/default.jpeg");
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
