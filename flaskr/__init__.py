@@ -131,6 +131,10 @@ def create_app(test_config=None):
         except ValueError:
             return make_error_response('One or both API calls failed')
         return (full_json, 200, {})
+    
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
 
     return app
 
