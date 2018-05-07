@@ -146,8 +146,12 @@ function displayCurrentWeather(currentWeather, forecastContainer) {
 
     // change background to match current weather type
     var currentMain = currentWeather.weather[0].main;
-    var newBgUrl = '/static/img/' + currentMain + '.jpeg';
-    $('html').css('background-image', 'url("' + newBgUrl + '")');
+    var backgroundTypes = ['Fog', 'Rain', 'Clear', 'Snow', 'Clouds', 'Drizzle',
+                           'Atmosphere', 'Thunderstorm', 'Mist'];
+    if($.inArray(currentMain, backgroundTypes)) {
+        var newBgUrl = '/static/img/' + currentMain + '.jpeg';
+        $('html').css('background-image', 'url("' + newBgUrl + '")');
+    }
 }
 
 function displayForecastDay(weatherDay, baseElement) {
