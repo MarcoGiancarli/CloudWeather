@@ -6,7 +6,7 @@ $('#locationInput').autocomplete({
     serviceUrl: '/api/autocomplete',
     deferRequestBy: 80,
     onSelect: function(suggestion) {
-        getForecast(suggestion);
+        loadWeather(suggestion.value);
     }
 });
 
@@ -15,124 +15,53 @@ $('#locationInput').autocomplete({
 $('#locationInput').off('focus.autocomplete');
 
 // for when the user submits the form instead of clicking a suggestion
-// prevent form submit from refreshing page
 $("#locationForm").submit(function(e) {
-    e.preventDefault();
+    e.preventDefault(); // prevent form submit from refreshing page
     var loc = $('#locationInput').val();
-    getForecast({'value': loc}); // must be in object to immitate suggestion
+    loadWeather(loc);
 });
 
-function getForecast(suggestion) {
-    var forecastURL = '/api/forecast?location=' + 
-            encodeURIComponent(suggestion.value);
-    $.getJSON(forecastURL, function(data) {
+function loadWeather(suggestion) {
+    var weatherURL = '/api/weather?location=' + 
+            encodeURIComponent(suggestion);
+    $.getJSON(weatherURL, function(data) {
         var forecastContainer = $('#forecastContainer');
         forecastContainer.fadeOut(300, function() {
-
-            dailyWeatherData = formatWeatherData(data);
-
-            var cityName = data.city.name;
-            var currentTempString = 
-                    Math.round(convertToF(data.list[0].main.temp)) + 
-                    String.fromCharCode(176) + 'F';
-            var currentDescString = 
-                    sentenceCapitalize(data.list[0].weather[0].description);
-            var currentHumidString = 'Humidity: ' + 
-                    Math.round(data.list[0].main.humidity) + '%';
-            var currentWindString = 'Wind Speed: ' + 
-                    Math.round(convertToMph(data.list[0].wind.speed)) + 'mph';
-
-            forecastContainer.find('.current-city-name')
-                    .text(cityName);
-            forecastContainer.find('.current-conditions-temp')
-                    .text(currentTempString);
-            forecastContainer.find('.current-conditions-desc')
-                    .text(currentDescString);
-            forecastContainer.find('.current-conditions-humid')
-                    .text(currentHumidString);
-            forecastContainer.find('.current-conditions-wind')
-                    .text(currentWindString);
-
-            // change background to match current weather conditions
-            var currentMain = data.list[0].weather[0].main;
-            var newBgUrl = '/static/img/' + currentMain + '.jpeg';
-            $('html').css('background-image', 'url("' + newBgUrl + '")');
-
+            dailyWeatherData = formatForecastData(data.forecast);
+            displayCurrentWeather(data.weather, forecastContainer);
+            
             for(var i=0; i<5; i++) {
-                var col = $('#forecast-day-' + i);
-                var dateString = dailyWeatherData[i].dayOfWeek + ', ' +
-                        dailyWeatherData[i].date;
-                var highString = Math.round(dailyWeatherData[i].high);
-                var lowString = Math.round(dailyWeatherData[i].low);
-                var descString = sentenceCapitalize(dailyWeatherData[i].desc);
-                var humidString = 'Peak Humidity: ' + 
-                        Math.round(dailyWeatherData[i].peakHumid) + '%';
-                var windString = 'Peak Wind Speed: ' + 
-                        Math.round(dailyWeatherData[i].peakWind) + 'mph';
-                var iconImg = '<img src="http://openweathermap.org/img/w/' +
-                        dailyWeatherData[i].icon + '.png"/>';
-
-                col.find('.forecast-date').text(dateString);
-                col.find('.forecast-temp-high').text(highString);
-                col.find('.forecast-temp-low').text(lowString);
-                col.find('.forecast-desc').text(descString);
-                col.find('.forecast-humid').text(humidString);
-                col.find('.forecast-wind').text(windString);
-                col.find('.forecast-icon').html(iconImg);
+                var baseElement = $('#forecast-day-' + i);
+                displayForecastDay(dailyWeatherData[i], baseElement);
             }
 
-            // make the forecast visible only after the content is loaded
+            // make the forecast visible again only after the content is loaded
             forecastContainer.removeClass('hide');
             forecastContainer.fadeIn(300);
         });
     });
 }
 
-function formatWeatherData(data) {
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
-                'Thursday', 'Friday', 'Saturday'];
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
-                  'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-
+function formatForecastData(data) {
     var dailyWeather = []; // contains data for each day in forecast
-    var forecastDays = {}; // keeps track of days already in dailyWeather
+    var daysSeen = {}; // keeps track of days already in dailyWeather
     for(var i=0; i<data.list.length; i++) {
-        var weatherReport = reformat3Hour(data.list[i]);
-        var dayOfMonth = weatherReport.dt.getDate().toString();
-        if(dayOfMonth in forecastDays) {
+        var weather3Hour = new Weather3Hour(data.list[i]);
+        var dayOfMonth = weather3Hour.dt.getDate().toString();
+        if(dayOfMonth in daysSeen) {
             var currentDay = dailyWeather[dailyWeather.length-1];
-            if(currentDay.high < weatherReport.high) {
-                currentDay.high = weatherReport.high;
-            }
-            if(currentDay.low > weatherReport.low) {
-                currentDay.low = weatherReport.low;
-            }
-            if(currentDay.peakHumid < weatherReport.humid) {
-                currentDay.peakHumid = weatherReport.humid;
-            }
-            if(currentDay.peakWind < weatherReport.wind) {
-                currentDay.peakWind = weatherReport.wind;
-            }
-            currentDay.dataPoints.push(weatherReport);
+            updateDayValues(currentDay, weather3Hour);
+            currentDay.dataPoints.push(weather3Hour);
         } else {
-            forecastDays[dayOfMonth] = dailyWeather.length;
-            dailyWeather.push({
-                'high': weatherReport.high,
-                'low': weatherReport.low,
-                'peakHumid': weatherReport.humid,
-                'peakWind': weatherReport.wind,
-                'dataPoints': [weatherReport],
-                'dayOfWeek': days[weatherReport.dt.getDay()],
-                'date': months[weatherReport.dt.getMonth()] + ' ' + 
-                        weatherReport.dt.getDate().toString()
-            });
+            daysSeen[dayOfMonth] = dailyWeather.length;
+            dailyWeather.push(new WeatherDay(weather3Hour));
         }
 
         // fill first partial day up to 8 3-hour data points so that graphing
         // works the same for all days
         var prevDay = dailyWeather[dailyWeather.length-2];
         if(dailyWeather.length > 1 && prevDay.dataPoints.length < 8) {
-            prevDay.dataPoints.push(weatherReport);
+            prevDay.dataPoints.push(weather3Hour);
         }
     }
     
@@ -150,17 +79,97 @@ function formatWeatherData(data) {
     return dailyWeather;
 }
 
-function reformat3Hour(weatherReport) {
-    return {
-        'dt': new Date(weatherReport.dt*1000),
-        'high' : convertToF(weatherReport.main.temp_max),
-        'low' : convertToF(weatherReport.main.temp_min),
-        'humid' : weatherReport.main.humidity,
-        'wind' : convertToMph(weatherReport.wind.speed),
-        'main' : weatherReport.weather[0].main,
-        'desc' : weatherReport.weather[0].description,
-        'icon' : weatherReport.weather[0].icon
+function Weather3Hour(forecastSegment) {
+    this.dt = new Date(forecastSegment.dt*1000),
+    this.high = convertToF(forecastSegment.main.temp_max),
+    this.low = convertToF(forecastSegment.main.temp_min),
+    this.humid = forecastSegment.main.humidity,
+    this.wind = convertToMph(forecastSegment.wind.speed),
+    this.main = forecastSegment.weather[0].main,
+    this.desc = forecastSegment.weather[0].description,
+    this.icon = forecastSegment.weather[0].icon
+}
+
+function updateDayValues(currentDay, weather3Hour) {
+	if(currentDay.high < weather3Hour.high) {
+        currentDay.high = weather3Hour.high;
     }
+    if(currentDay.low > weather3Hour.low) {
+        currentDay.low = weather3Hour.low;
+    }
+    if(currentDay.peakHumid < weather3Hour.humid) {
+        currentDay.peakHumid = weather3Hour.humid;
+    }
+    if(currentDay.peakWind < weather3Hour.wind) {
+        currentDay.peakWind = weather3Hour.wind;
+    }
+}
+
+function WeatherDay(weather3Hour) {
+    var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
+                'Thursday', 'Friday', 'Saturday'];
+    var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
+                  'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    
+	this.high = weather3Hour.high;
+    this.low = weather3Hour.low;
+    this.peakHumid = weather3Hour.humid;
+    this.peakWind = weather3Hour.wind;
+    this.dataPoints = [weather3Hour];
+    this.dayOfWeek = DAYS[weather3Hour.dt.getDay()];
+    this.date = MONTHS[weather3Hour.dt.getMonth()] + ' ' + 
+            weather3Hour.dt.getDate().toString();
+}
+
+function displayCurrentWeather(currentWeather, forecastContainer) {
+	var cityName = currentWeather.name;
+    var currentTempString = 
+            Math.round(convertToF(currentWeather.main.temp)) + 
+            String.fromCharCode(176) + 'F';
+    var currentDescString = 
+            sentenceCapitalize(currentWeather.weather[0].description);
+    var currentHumidString = 'Humidity: ' + 
+            Math.round(currentWeather.main.humidity) + '%';
+    var currentWindString = 'Wind Speed: ' + 
+            Math.round(convertToMph(currentWeather.wind.speed)) + 'mph';
+
+    forecastContainer.find('.current-city-name')
+            .text(cityName);
+    forecastContainer.find('.current-conditions-temp')
+            .text(currentTempString);
+    forecastContainer.find('.current-conditions-desc')
+            .text(currentDescString);
+    forecastContainer.find('.current-conditions-humid')
+            .text(currentHumidString);
+    forecastContainer.find('.current-conditions-wind')
+            .text(currentWindString);
+
+    // change background to match current weather type
+    var currentMain = currentWeather.weather[0].main;
+    var newBgUrl = '/static/img/' + currentMain + '.jpeg';
+    $('html').css('background-image', 'url("' + newBgUrl + '")');
+}
+
+function displayForecastDay(weatherDay, baseElement) {
+	var dateString = weatherDay.dayOfWeek + ', ' +
+    		weatherDay.date;
+	var highString = Math.round(weatherDay.high);
+	var lowString = Math.round(weatherDay.low);
+	var descString = sentenceCapitalize(weatherDay.desc);
+	var humidString = 'Peak Humidity: ' + 
+	    	Math.round(weatherDay.peakHumid) + '%';
+	var windString = 'Peak Wind Speed: ' + 
+	    	Math.round(weatherDay.peakWind) + 'mph';
+	var iconImg = '<img src="http://openweathermap.org/img/w/' +
+			weatherDay.icon + '.png"/>';
+	
+	baseElement.find('.forecast-date').text(dateString);
+	baseElement.find('.forecast-temp-high').text(highString);
+	baseElement.find('.forecast-temp-low').text(lowString);
+	baseElement.find('.forecast-desc').text(descString);
+	baseElement.find('.forecast-humid').text(humidString);
+	baseElement.find('.forecast-wind').text(windString);
+	baseElement.find('.forecast-icon').html(iconImg);
 }
 
 function convertToF(temp) {

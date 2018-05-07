@@ -23,6 +23,8 @@ def create_app(test_config=None):
     #    pass
 
     FORECAST_URL = 'https://api.openweathermap.org/data/2.5/forecast'
+    WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather'
+
     WEATHER_API_KEY = None
     with open('weather_api_key.txt', 'r') as key_file:
         WEATHER_API_KEY = key_file.readline().strip()
@@ -88,24 +90,19 @@ def create_app(test_config=None):
         results = {'suggestions': [result[0] for result in results]}
 
         return json.dumps(results)
-        
-    @app.route('/api/forecast')
-    def forecast():
-        """ Display the 5-day forecast for a selected city/zip. Relays JSON 
-            response from openweathermap.org API. """
-        # TODO: add a token to the page that expires to prevent abuse
+
+    @app.route('/api/weather')
+    def weather():
+        """ Return the current weather and the 5-day forecast for a selected 
+            city/zip. Relays JSON response from openweathermap.org API. """
         location = request.args.get('location', None)
         if location is None:
-            error_response = make_response('No location specified')
-            error_response.status_code = 400
-            return error_response
+            return make_error_response('No location specified')
         
         # Make queries case insensitive by always using title-capitalization
         location = fix_capitalization(location)
 
-        url_params = {
-            'APPID': WEATHER_API_KEY,
-        }
+        url_params = {'APPID': WEATHER_API_KEY}
 
         # for each trie, try to find the first match. this lets us accept 
         # the partial name for a city, e.g. 'Newark, NJ' for 'Newark, NJ, US'
@@ -122,14 +119,18 @@ def create_app(test_config=None):
                 found_match = True
                 break
         if not found_match:
-            error_response = make_response('Invalid location')
-            error_response.status_code = 400
-            return error_response
+            return make_error_response('Invalid location')
 
-        weather_response = requests.get(FORECAST_URL, params=url_params)
-        return (weather_response.text, 
-                weather_response.status_code, 
-                weather_response.headers.items())
+        forecast_response = requests.get(FORECAST_URL, params=url_params)
+        weather_response = requests.get(WEATHER_URL, params=url_params)
+        try:
+            full_json = json.dumps({
+                'forecast': forecast_response.json(),
+                'weather': weather_response.json(),
+            })
+        except ValueError:
+            return make_error_response('One or both API calls failed')
+        return (full_json, 200, {})
 
     return app
 
@@ -219,4 +220,9 @@ def fix_capitalization(location):
         return city_part.title() + ',' + state_country_part.upper()
     else:
         return city_part.title()
+
+def make_error_response(text):
+    error_response = make_response(text)
+    error_response.status_code = 400
+    return error_response
 
