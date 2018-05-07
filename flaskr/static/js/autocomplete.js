@@ -148,7 +148,7 @@ function displayCurrentWeather(currentWeather, forecastContainer) {
     var currentMain = currentWeather.weather[0].main;
     var backgroundTypes = ['Fog', 'Rain', 'Clear', 'Snow', 'Clouds', 'Drizzle',
                            'Atmosphere', 'Thunderstorm', 'Mist'];
-    if($.inArray(currentMain, backgroundTypes) === -1) {
+    if($.inArray(currentMain, backgroundTypes) !== -1) {
         var newBgUrl = '/static/img/' + currentMain + '.jpeg';
         $('html').css('background-image', 'url("' + newBgUrl + '")');
     }
