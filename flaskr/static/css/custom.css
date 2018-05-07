@@ -4,7 +4,7 @@
 
 body {
     background: rgba(19, 22, 24, 0.7);
-    padding-top: 4rem;
+    min-height: 100vh;
     height: 100%;
     overflow: auto;
 }
@@ -20,9 +20,15 @@ html {
     overflow: auto;
 }
 
-.main-content {
+wrapper {
+    min-height: 100vh;
+    top: 0;
+    padding-top: 4rem;
+}
+
+main {
     padding: 3rem 1.5rem;
-    text-align: center;
+    padding-bottom: 0;
 }
 
 .loc-input {
@@ -151,9 +157,15 @@ html {
     text-align: center;
 }
 
-.inner-container {
-    padding-left: 0;
-    padding-right: 0;
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer > div {
+    height: 50px;
+    line-height: 50px;
 }
 
 .hide {
