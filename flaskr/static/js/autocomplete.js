@@ -17,8 +17,9 @@ $('#locationInput').off('focus.autocomplete');
 // for when the user submits the form instead of clicking a suggestion
 $("#locationForm").submit(function(e) {
     e.preventDefault(); // prevent form submit from refreshing page
-    var loc = $('#locationInput').val();
-    loadWeather(loc);
+    var loc = $('#locationInput');
+    hideKeyboard(loc);
+    loadWeather(loc.val());
 });
 
 function loadWeather(suggestion) {
@@ -178,6 +179,17 @@ function displayForecastDay(weatherDay, baseElement) {
 	baseElement.find('.forecast-humid').text(humidString);
 	baseElement.find('.forecast-wind').text(windString);
 	baseElement.find('.forecast-icon').html(iconImg);
+}
+
+function hideKeyboard(element) {
+    element.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
+    element.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
+    setTimeout(function() {
+        element.blur();  //actually close the keyboard
+        // Remove readonly attribute after keyboard is hidden.
+        element.removeAttr('readonly');
+        element.removeAttr('disabled');
+    }, 100);
 }
 
 function convertToF(temp) {
