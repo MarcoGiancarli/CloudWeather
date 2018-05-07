@@ -3,10 +3,12 @@
 }*/
 
 body {
-    background: rgba(19, 22, 24, 0.7);
+    background-color: rgba(19, 22, 24, 0.7);
     min-height: 100vh;
     height: 100%;
     overflow: auto;
+    -webkit-transition: background-color .3s; 
+    transition: background-color .3s;
 }
 
 html {
@@ -16,8 +18,8 @@ html {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    height: 100%;
     overflow: auto;
+    height: 100%;
 }
 
 wrapper {
@@ -166,6 +168,10 @@ main {
 .footer > div {
     height: 50px;
     line-height: 50px;
+}
+
+.opaque-bg {
+    background-color: rgba(19, 22, 24, 1.0);
 }
 
 .hide {

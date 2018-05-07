@@ -150,7 +150,11 @@ function displayCurrentWeather(currentWeather, forecastContainer) {
                            'Atmosphere', 'Thunderstorm', 'Mist'];
     if($.inArray(currentMain, backgroundTypes) !== -1) {
         var newBgUrl = '/static/img/' + currentMain + '.jpeg';
-        $('html').css('background-image', 'url("' + newBgUrl + '")');
+        $('body').toggleClass('opaque-bg');
+        setTimeout(function() {
+            $('html').css('background-image', 'url("' + newBgUrl + '")');
+            $('body').toggleClass('opaque-bg');
+        }, 300);
     }
 }
 
