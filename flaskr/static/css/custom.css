@@ -4,7 +4,8 @@
 
 body {
     background-color: rgba(19, 22, 24, 0.7);
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     overflow: auto;
     -webkit-transition: background-color .3s; 
     transition: background-color .3s;
@@ -18,18 +19,20 @@ html {
     -o-background-size: cover;
     background-size: cover;
     overflow: auto;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
 }
 
 wrapper {
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     top: 0;
     padding-top: 4rem;
 }
 
 main {
     padding: 3rem 1.5rem;
-    padding-bottom: 40pt;
+    padding-bottom: 0;
 }
 
 .loc-input {
@@ -176,7 +179,6 @@ main {
 .footer > div {
     height: 40pt;
     line-height: 40pt;
-    margin-top: -40pt;
 }
 
 .opaque-bg {
