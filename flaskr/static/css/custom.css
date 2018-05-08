@@ -8,8 +8,6 @@ body {
     overflow: auto;
     -webkit-transition: background-color .3s; 
     transition: background-color .3s;
-    margin-bottom: -40pt;
-    padding-bottom: 40pt;
 }
 
 html {
@@ -24,14 +22,14 @@ html {
 }
 
 wrapper {
-    min-height: 100vh;
+    height: 100vh;
     top: 0;
     padding-top: 4rem;
 }
 
 main {
     padding: 3rem 1.5rem;
-    padding-bottom: 0;
+    padding-bottom: 40pt;
 }
 
 .loc-input {
@@ -178,6 +176,7 @@ main {
 .footer > div {
     height: 40pt;
     line-height: 40pt;
+    margin-top: -40pt;
 }
 
 .opaque-bg {
