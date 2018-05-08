@@ -1,5 +1,6 @@
 // global so that we can graph daily data on click
 var dailyWeatherData;
+var forecastCards = [];
 
 $('#locationInput').autocomplete({
     paramName: 'prefix',
@@ -18,11 +19,17 @@ $('#locationInput').off('focus.autocomplete');
 $("#locationForm").submit(function(e) {
     e.preventDefault(); // prevent form submit from refreshing page
     var loc = $('#locationInput');
-    hideKeyboard(loc);
     loadWeather(loc.val());
 });
 
 function loadWeather(suggestion) {
+    // hide chart if it's visible
+    $('.weather-chart-wrapper').addClass('hide');
+
+    // hide mobile keyboard
+    document.activeElement.blur();
+    $('#locationInput').blur();
+    
     var weatherURL = '/api/weather?location=' + 
             encodeURIComponent(suggestion);
     $.getJSON(weatherURL, function(data) {
@@ -41,6 +48,35 @@ function loadWeather(suggestion) {
             forecastContainer.fadeIn(300);
         });
     });
+
+    // add listeners for forecast cards for graphing
+    forecastCards = [];
+    for(var i=0; i<5; i++) {
+        forecastCards.push($('#forecast-day-' + i));
+    }
+    for(var i=0; i<5; i++) {
+        forecastCards[i].on('click', makeDrawChartFunc(i));
+    }
+}
+
+function makeDrawChartFunc(index) {
+    return function() {
+        for(var i=0; i<5; i++) {
+            if(i !== index) {
+                forecastCards[i].removeClass('active');
+            } else {
+                forecastCards[i].addClass('active');
+            }
+        }
+        var weatherChartWrapper = $('.weather-chart-wrapper');
+        weatherChartWrapper.removeClass('hide');
+        //weatherChartWrapper[0].scrollIntoView();
+        $('html, body').animate({
+            scrollTop: $("#weatherChart").offset().top
+        }, {duration: 1000, queue: false});
+        drawChart(dailyWeatherData[index]);
+
+    }
 }
 
 function formatForecastData(data) {
@@ -82,6 +118,7 @@ function formatForecastData(data) {
 
 function Weather3Hour(forecastSegment) {
     this.dt = new Date(forecastSegment.dt*1000),
+    this.temp = convertToF(forecastSegment.main.temp),
     this.high = convertToF(forecastSegment.main.temp_max),
     this.low = convertToF(forecastSegment.main.temp_min),
     this.humid = forecastSegment.main.humidity,
@@ -107,10 +144,10 @@ function updateDayValues(currentDay, weather3Hour) {
 }
 
 function WeatherDay(weather3Hour) {
-    var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
-                'Thursday', 'Friday', 'Saturday'];
-    var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
-                  'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 
+            'Friday', 'Saturday'];
+    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 
+            'July', 'August', 'September', 'October', 'November', 'December'];
     
 	this.high = weather3Hour.high;
     this.low = weather3Hour.low;
@@ -179,17 +216,6 @@ function displayForecastDay(weatherDay, baseElement) {
 	baseElement.find('.forecast-humid').text(humidString);
 	baseElement.find('.forecast-wind').text(windString);
 	baseElement.find('.forecast-icon').html(iconImg);
-}
-
-function hideKeyboard(element) {
-    element.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
-    element.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
-    setTimeout(function() {
-        element.blur();  //actually close the keyboard
-        // Remove readonly attribute after keyboard is hidden.
-        element.removeAttr('readonly');
-        element.removeAttr('disabled');
-    }, 100);
 }
 
 function convertToF(temp) {

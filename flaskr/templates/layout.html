@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Simple weather forecast web app">
     <meta name="author" content="Marco Giancarli">
     <!--<link rel="icon" href="../../../../favicon.ico">-->
 
@@ -36,26 +36,7 @@
       </footer>
 
     </wrapper> 
-
-    <!-- Preload background images for a more seamless transition -->
-    <div id="preload">
-      <img src="/static/img/default.jpeg" />
-      <img src="/static/img/Clear.jpeg" />
-      <img src="/static/img/Clouds.jpeg" />
-      <img src="/static/img/Rain.jpeg" />
-      <img src="/static/img/Thunderstorm.jpeg" />
-      <img src="/static/img/Snow.jpeg" />
-      <img src="/static/img/Atmosphere.jpeg" />
-      <img src="/static/img/Drizzle.jpeg" />
-      <img src="/static/img/Fog.jpeg" />
-      <img src="/static/img/Mist.jpeg" />
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js"></script>
-    <script src="static/js/autocomplete.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    {% block bottom %}{% endblock %}
   </body>
 </html>
 

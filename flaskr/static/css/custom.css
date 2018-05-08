@@ -73,6 +73,15 @@ main {
     margin: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
+    background: #343A40;
+}
+
+.forecast-col:hover {
+    background: #464B51;
+}
+
+.forecast-col.active {
+    background: #222629;
 }
 
 .forecast-temp-box {
@@ -166,12 +175,44 @@ main {
 }
 
 .footer > div {
-    height: 50px;
-    line-height: 50px;
+    height: 40pt;
+    line-height: 40pt;
 }
 
 .opaque-bg {
     background-color: rgba(19, 22, 24, 1.0);
+}
+
+#weatherChart {
+    background: rgba(255, 255, 255, 0.8);
+    width: 163px;
+    height: 100px;
+}
+
+.weather-chart-wrapper {
+    width: auto;
+    height: 70vh;
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+@media (min-width: 768px) {
+    .weather-chart-wrapper {
+        width: auto;
+        height: 65vh;
+    }
+}
+@media (min-width: 992px) {
+    .weather-chart-wrapper {
+        width: 650px;
+		height: 400px;
+    }
+}
+@media (min-width: 1200px) {
+    .weather-chart-wrapper {
+        width: 750px;
+		height: 450px;
+    }
 }
 
 .hide {
