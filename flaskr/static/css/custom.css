@@ -14,13 +14,13 @@ body {
 html {
     background-image: url("/static/img/default.jpeg");
     background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    overflow: auto;
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
     min-height: 100vh;
     height: 100%;
+    overflow: auto;
 }
 
 wrapper {
