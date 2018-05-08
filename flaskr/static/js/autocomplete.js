@@ -38,9 +38,16 @@ function loadWeather(suggestion) {
             dailyWeatherData = formatForecastData(data.forecast);
             displayCurrentWeather(data.weather, forecastContainer);
             
+            forecastCards = [];
             for(var i=0; i<5; i++) {
-                var baseElement = $('#forecast-day-' + i);
-                displayForecastDay(dailyWeatherData[i], baseElement);
+                forecastCards.push($('#forecast-day-' + i));
+                displayForecastDay(dailyWeatherData[i], forecastCards[i]);
+            }
+            // after loaded, add listeners to forecast cards for graphing
+            for(var i=0; i<5; i++) {
+                forecastCards[i].on('click', makeDrawChartFunc(i));
+                // since we're loading a new location, make all cards inactive
+                forecastCards[i].removeClass('active');
             }
 
             // make the forecast visible again only after the content is loaded
@@ -48,15 +55,6 @@ function loadWeather(suggestion) {
             forecastContainer.fadeIn(300);
         });
     });
-
-    // add listeners for forecast cards for graphing
-    forecastCards = [];
-    for(var i=0; i<5; i++) {
-        forecastCards.push($('#forecast-day-' + i));
-    }
-    for(var i=0; i<5; i++) {
-        forecastCards[i].on('click', makeDrawChartFunc(i));
-    }
 }
 
 function makeDrawChartFunc(index) {
@@ -70,9 +68,8 @@ function makeDrawChartFunc(index) {
         }
         var weatherChartWrapper = $('.weather-chart-wrapper');
         weatherChartWrapper.removeClass('hide');
-        //weatherChartWrapper[0].scrollIntoView();
         $('html, body').animate({
-            scrollTop: $("#weatherChart").offset().top
+            scrollTop: $(".weather-chart-wrapper").offset().top
         }, {duration: 1000, queue: false});
         drawChart(dailyWeatherData[index]);
 
