@@ -19,12 +19,10 @@ html {
     -o-background-size: cover !important;
     background-size: cover !important;
     min-height: 100vh;
-    height: 100%;
-    overflow: auto;
 }
 
 wrapper {
-    height: 100vh;
+    min-height: 100vh;
     top: 0;
     padding-top: 4rem;
 }
