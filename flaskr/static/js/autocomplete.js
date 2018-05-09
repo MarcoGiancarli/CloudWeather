@@ -71,7 +71,7 @@ function makeDrawChartFunc(index) {
         $('html, body').animate({
             scrollTop: $(".weather-chart-wrapper").offset().top -
                     $('main').offset().top
-        }, {duration: 1000, queue: false});
+        }, {duration: 650, queue: false});
         drawChart(dailyWeatherData[index]);
 
     }
