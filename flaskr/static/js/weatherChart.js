@@ -1,6 +1,8 @@
-var weatherChart;
+// THIS MUST BE INITIALIZED AS NULL OR ELSE IOS BREAKS
+var weatherChart = null;
 
-function drawChart(weatherDay) {
+// declare function with var to put it in window namespace. fixes ios issue
+var drawChart = function(weatherDay) {
     var data = prepareData(weatherDay);
     
     // destroy pre-existing chart so that we dont overlap them
@@ -80,7 +82,7 @@ function drawChart(weatherDay) {
         }
     };
     weatherChart = new Chart(ctx, config);
-}
+};
 
 function prepareData(weatherDay) {
     var labels = [];
@@ -88,8 +90,6 @@ function prepareData(weatherDay) {
     var humidData = [];
 
     for(var i=0; i<weatherDay.dataPoints.length; i++) {
-        //var dtReadable = weatherDay.dataPoints[i].dt.toLocaleTimeString([], 
-        //        {hour: '2-digit', minute: '2-digit'});
         labels.push(weatherDay.dataPoints[i].dt);
         tempData.push(Math.round(weatherDay.dataPoints[i].temp));
         humidData.push(Math.round(weatherDay.dataPoints[i].humid));

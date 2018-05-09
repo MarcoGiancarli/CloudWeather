@@ -187,8 +187,6 @@ main {
 
 #weatherChart {
     background: rgba(255, 255, 255, 0.8);
-    width: 163px;
-    height: 100px;
 }
 
 .weather-chart-wrapper {

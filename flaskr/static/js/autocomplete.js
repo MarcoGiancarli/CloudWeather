@@ -58,7 +58,9 @@ function loadWeather(suggestion) {
 }
 
 function makeDrawChartFunc(index) {
-    return function() {
+    return function(e) {
+        e.stopImmediatePropagation(); // removes jump-to-top-of-page bug
+
         for(var i=0; i<5; i++) {
             if(i !== index) {
                 forecastCards[i].removeClass('active');
@@ -73,7 +75,6 @@ function makeDrawChartFunc(index) {
                     $('main').offset().top
         }, {duration: 650, queue: false});
         drawChart(dailyWeatherData[index]);
-
     }
 }
 
