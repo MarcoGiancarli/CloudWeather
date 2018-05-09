@@ -19,6 +19,8 @@ html {
     -o-background-size: cover !important;
     background-size: cover !important;
     min-height: 100vh;
+    height: 100%;
+    overflow: auto;
 }
 
 wrapper {
