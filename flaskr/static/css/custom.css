@@ -34,8 +34,12 @@ main {
     padding-bottom: 0;
 }
 
-.loc-input {
+#locationInput {
     margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+#locationForm {
     margin-bottom: 2rem;
 }
 
@@ -44,6 +48,8 @@ main {
     background: #FFF; 
     overflow: auto; 
     color: #333;
+    position: absolute;
+    text-align: left;
 }
 
 .autocomplete-suggestion { 

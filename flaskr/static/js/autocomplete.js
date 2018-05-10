@@ -4,6 +4,8 @@ var forecastCards = [];
 
 $('#locationInput').autocomplete({
     paramName: 'prefix',
+    appendTo: $('#locationForm'),
+    zIndex: 999,
     serviceUrl: '/api/autocomplete',
     deferRequestBy: 80,
     onSelect: function(suggestion) {
