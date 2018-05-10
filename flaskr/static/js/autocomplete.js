@@ -198,9 +198,18 @@ function displayCurrentWeather(currentWeather, forecastContainer) {
 
     // change background to match current weather type
     var currentMain = currentWeather.weather[0].main;
-    var backgroundTypes = ['Fog', 'Rain', 'Clear', 'Snow', 'Clouds', 'Drizzle',
-                           'Atmosphere', 'Thunderstorm', 'Mist'];
-    if($.inArray(currentMain, backgroundTypes) !== -1) {
+    var mainTypes = ['Rain', 'Clear', 'Snow', 'Clouds', 'Drizzle',
+            'Atmosphere', 'Thunderstorm', 'Mist'];
+    var atmosphereVariations = ['Fog', 'Smoke', 'Haze', 'Dust', 'Sand'];
+    // extend mainTypes with atmosphereVariations
+    mainTypes.push.apply(mainTypes, atmosphereVariations);
+
+    if($.inArray(currentMain, mainTypes) !== -1) {
+        // combine the variations of atmosphere
+        if($.inArray(currentMain, atmosphereVariations) !== -1) {
+            currentMain = 'Atmosphere';
+        }
+
         var newBgUrl = '/static/img/' + currentMain + '.jpeg';
         $('body').toggleClass('opaque-bg');
         setTimeout(function() {
