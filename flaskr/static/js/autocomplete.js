@@ -6,6 +6,7 @@ $('#locationInput').autocomplete({
     paramName: 'prefix',
     appendTo: $('#locationForm'),
     zIndex: 999,
+    triggerSelectOnValidInput: false,
     serviceUrl: '/api/autocomplete',
     deferRequestBy: 80,
     onSelect: function(suggestion) {
@@ -16,6 +17,13 @@ $('#locationInput').autocomplete({
 // turns off autocomplete call on focus. see issue at
 // https://github.com/devbridge/jQuery-Autocomplete/issues/498
 $('#locationInput').off('focus.autocomplete');
+
+// on focus of locationInput, scroll it to top of page to help mobile users
+$('#locationInput').on('focus', function() {
+    if($(window).width() < 768) {
+        smoothScrollTo('#locationForm');
+    }
+});
 
 // for when the user submits the form instead of clicking a suggestion
 $("#locationForm").submit(function(e) {
@@ -72,12 +80,17 @@ function makeDrawChartFunc(index) {
         }
         var weatherChartWrapper = $('.weather-chart-wrapper');
         weatherChartWrapper.removeClass('hide');
-        $('html, body').animate({
-            scrollTop: $(".weather-chart-wrapper").offset().top -
-                    $('main').offset().top
-        }, {duration: 650, queue: false});
+        smoothScrollTo('.weather-chart-wrapper');
         drawChart(dailyWeatherData[index]);
     }
+}
+
+function smoothScrollTo(selector) {
+    var navHeight = $('nav').height();
+    $('html, body').animate({
+        scrollTop: $(selector).offset().top - $('main').offset().top
+                - navHeight - 10
+    }, {duration: 650, queue: false});
 }
 
 function formatForecastData(data) {
