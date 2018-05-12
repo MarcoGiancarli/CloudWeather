@@ -31,6 +31,7 @@ var drawChart = function(weatherDay) {
             }, {
                 label: 'Rain',
                 fill: true,
+                steppedLine: true,
                 data: data.rainData,
                 borderColor: 'rgba(64, 121, 196, 1.0)',
                 backgroundColor: 'rgba(64, 121, 196, 0.4)',
@@ -39,14 +40,15 @@ var drawChart = function(weatherDay) {
         },
         options: {
             tooltips: {
-                mode: 'nearest',
-                intersect: false
+                mode: 'index',
+                intersect: false,
+                callbacks: {}
             },
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Temperature and Humidity for ' + weatherDay.dayOfWeek +
+                text: 'Weather Conditions for ' + weatherDay.dayOfWeek +
                         ', ' + weatherDay.date
             },
             scales: {
@@ -86,6 +88,7 @@ var drawChart = function(weatherDay) {
                     }
                 }, {
                     id: 'rain',
+                    display: false,
                     type: 'linear',
                     position: 'right',
                     gridLines: {
@@ -102,10 +105,12 @@ var drawChart = function(weatherDay) {
             }
         }
     };
+
     if(data.hasSnow) {
         config.data.datasets.push({
             label: 'Snow',
             fill: true,
+            steppedLine: true,
             data: data.snowData,
             borderColor: 'rgba(244, 244, 249, 1.0)',
             backgroundColor: 'rgba(244, 244, 249, 0.4)',
@@ -113,6 +118,7 @@ var drawChart = function(weatherDay) {
         });
         config.options.scales.yAxes.push({
             id: 'snow',
+            display: false,
             type: 'linear',
             position: 'right',
             gridLines: {
@@ -127,7 +133,21 @@ var drawChart = function(weatherDay) {
             }
         });
     }
+
+    config.options.tooltips.callbacks.label = function(tooltipItem, data) {
+        if(tooltipItem.datasetIndex == 0) {
+            return tooltipItem.yLabel + String.fromCharCode(176) + 'F';
+        } else if(tooltipItem.datasetIndex == 1) {
+            return tooltipItem.yLabel + '%';
+        } else if(tooltipItem.datasetIndex == 2) {
+            return tooltipItem.yLabel + ' in.';
+        } else if(tooltipItem.datasetIndex == 3) {
+            return tooltipItem.yLabel + ' in.';
+        }
+        return tooltipItem.ylabel;
+    }
     Chart.defaults.global.defaultFontColor = '#F8F9FA';
+    
     weatherChart = new Chart(ctx, config);
 };
 
