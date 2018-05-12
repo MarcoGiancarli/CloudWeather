@@ -18,15 +18,15 @@ var drawChart = function(weatherDay) {
                 label: 'Temperature',
                 fill: false,
                 data: data.tempData,
-                borderColor: 'rgba(24, 86, 24, 1.0)',
-                backgroundColor: 'rgba(24, 86, 24, 1.0)',
+                borderColor: 'rgba(49, 199, 90, 1.0)',
+                backgroundColor: 'rgba(49, 199, 90, 1.0)',
                 yAxisID: 'temp'
             }, {
                 label: 'Humidity',
                 fill: false,
                 data: data.humidData,
-                borderColor: 'rgba(15, 23, 88, 1.0)',
-                backgroundColor: 'rgba(15, 23, 88, 1.0)',
+                borderColor: 'rgba(64, 121, 196, 1.0)',
+                backgroundColor: 'rgba(64, 121, 196, 1.0)',
                 yAxisID: 'humid'
             }]
         },
@@ -81,6 +81,7 @@ var drawChart = function(weatherDay) {
             }
         }
     };
+    Chart.defaults.global.defaultFontColor = '#F8F9FA';
     weatherChart = new Chart(ctx, config);
 };
 
