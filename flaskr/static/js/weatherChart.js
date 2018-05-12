@@ -25,9 +25,16 @@ var drawChart = function(weatherDay) {
                 label: 'Humidity',
                 fill: false,
                 data: data.humidData,
-                borderColor: 'rgba(64, 121, 196, 1.0)',
-                backgroundColor: 'rgba(64, 121, 196, 1.0)',
+                borderColor: 'rgba(237, 92, 87, 1.0)',
+                backgroundColor: 'rgba(237, 92, 87, 1.0)',
                 yAxisID: 'humid'
+            }, {
+                label: 'Rain',
+                fill: true,
+                data: data.rainData,
+                borderColor: 'rgba(64, 121, 196, 1.0)',
+                backgroundColor: 'rgba(64, 121, 196, 0.4)',
+                yAxisID: 'rain'
             }]
         },
         options: {
@@ -77,10 +84,49 @@ var drawChart = function(weatherDay) {
                         display: true,
                         labelString: '% Humidity'
                     }
+                }, {
+                    id: 'rain',
+                    type: 'linear',
+                    position: 'right',
+                    gridLines: {
+                        display: false
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'inches'
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }]
             }
         }
     };
+    if(data.hasSnow) {
+        config.data.datasets.push({
+            label: 'Snow',
+            fill: true,
+            data: data.snowData,
+            borderColor: 'rgba(244, 244, 249, 1.0)',
+            backgroundColor: 'rgba(244, 244, 249, 0.4)',
+            yAxisID: 'snow'
+        });
+        config.options.scales.yAxes.push({
+            id: 'snow',
+            type: 'linear',
+            position: 'right',
+            gridLines: {
+                display: false
+            },
+            scaleLabel: {
+                display: true,
+                labelString: 'inches'
+            },
+            ticks: {
+                beginAtZero: true
+            }
+        });
+    }
     Chart.defaults.global.defaultFontColor = '#F8F9FA';
     weatherChart = new Chart(ctx, config);
 };
@@ -89,17 +135,29 @@ function prepareData(weatherDay) {
     var labels = [];
     var tempData = [];
     var humidData = [];
+    var rainData = [];
+    var snowData = [];
+    var hasSnow = false;
 
     for(var i=0; i<weatherDay.dataPoints.length; i++) {
         labels.push(weatherDay.dataPoints[i].dt);
         tempData.push(Math.round(weatherDay.dataPoints[i].temp));
         humidData.push(Math.round(weatherDay.dataPoints[i].humid));
+        rainData.push(weatherDay.dataPoints[i].rain.toFixed(2));
+        snowData.push(weatherDay.dataPoints[i].snow.toFixed(2));
+    }
+
+    if(weatherDay.totalSnow > 0) {
+        hasSnow = true;
     }
 
     return {
         labels: labels,
         tempData: tempData,
-        humidData: humidData
+        humidData: humidData,
+        rainData: rainData,
+        snowData: snowData,
+        hasSnow: hasSnow,
     }
 }
 

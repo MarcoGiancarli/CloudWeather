@@ -101,7 +101,7 @@ function formatForecastData(data) {
         var dayOfMonth = weather3Hour.dt.getDate().toString();
         if(dayOfMonth in daysSeen) {
             var currentDay = dailyWeather[dailyWeather.length-1];
-            updateDayValues(currentDay, weather3Hour);
+            currentDay.updateDayValues(currentDay, weather3Hour);
             currentDay.dataPoints.push(weather3Hour);
         } else {
             daysSeen[dayOfMonth] = dailyWeather.length;
@@ -140,20 +140,13 @@ function Weather3Hour(forecastSegment) {
     this.main = forecastSegment.weather[0].main,
     this.desc = forecastSegment.weather[0].description,
     this.icon = forecastSegment.weather[0].icon
-}
-
-function updateDayValues(currentDay, weather3Hour) {
-	if(currentDay.high < weather3Hour.high) {
-        currentDay.high = weather3Hour.high;
+    this.rain = 0;
+    if('rain' in forecastSegment && '3h' in forecastSegment.rain) {
+        this.rain += convertToInches(forecastSegment.rain['3h']);
     }
-    if(currentDay.low > weather3Hour.low) {
-        currentDay.low = weather3Hour.low;
-    }
-    if(currentDay.peakHumid < weather3Hour.humid) {
-        currentDay.peakHumid = weather3Hour.humid;
-    }
-    if(currentDay.peakWind < weather3Hour.wind) {
-        currentDay.peakWind = weather3Hour.wind;
+    this.snow = 0;
+    if('snow' in forecastSegment && '3h' in forecastSegment.snow) {
+        this.snow += convertToInches(forecastSegment.snow['3h']);
     }
 }
 
@@ -167,10 +160,29 @@ function WeatherDay(weather3Hour) {
     this.low = weather3Hour.low;
     this.peakHumid = weather3Hour.humid;
     this.peakWind = weather3Hour.wind;
+    this.totalRain = weather3Hour.rain;
+    this.totalSnow = weather3Hour.snow;
     this.dataPoints = [weather3Hour];
     this.dayOfWeek = DAYS[weather3Hour.dt.getDay()];
     this.date = MONTHS[weather3Hour.dt.getMonth()] + ' ' + 
             weather3Hour.dt.getDate().toString();
+
+    this.updateDayValues = function (weather3Hour) {
+        if(this.high < weather3Hour.high) {
+            this.high = weather3Hour.high;
+        }
+        if(this.low > weather3Hour.low) {
+            this.low = weather3Hour.low;
+        }
+        if(this.peakHumid < weather3Hour.humid) {
+            this.peakHumid = weather3Hour.humid;
+        }
+        if(this.peakWind < weather3Hour.wind) {
+            this.peakWind = weather3Hour.wind;
+        }
+        this.totalRain += weather3Hour.rain;
+        this.totalSnow += weather3Hour.snow;
+    }
 }
 
 function displayCurrentWeather(currentWeather, forecastContainer) {
@@ -249,6 +261,11 @@ function convertToMph(speed) {
     return speed * 2.23694;
 }
 
+function convertToInches(mm) {
+    return mm * 0.0393701;
+}
+
 function sentenceCapitalize(sentence) {
     return sentence.charAt(0).toUpperCase() + sentence.slice(1);
 }
+
