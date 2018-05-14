@@ -85,6 +85,9 @@ var drawChart = function(weatherDay) {
                     scaleLabel: {
                         display: true,
                         labelString: '% Humidity'
+                    },
+                    ticks: {
+                        beginAtZero: true
                     }
                 }, {
                     id: 'rain',
