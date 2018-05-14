@@ -231,3 +231,24 @@ main {
     display: none;
 }
 
+.loader {
+    border: 20px solid rgba(163, 163, 163, 0.6);
+    border-radius: 50%;
+    border-top: 20px solid rgba(235, 235, 235, 0.6);
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 0.75s linear infinite; /* Safari */
+    animation: spin 0.75s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+

@@ -33,18 +33,19 @@ $("#locationForm").submit(function(e) {
 });
 
 function loadWeather(suggestion) {
-    // hide chart if it's visible
     $('.weather-chart-wrapper').addClass('hide');
 
     // hide mobile keyboard
     document.activeElement.blur();
     $('#locationInput').blur();
-    
+
+    var forecastContainer = $('#forecastContainer');
     var weatherURL = '/api/weather?location=' + 
             encodeURIComponent(suggestion);
-    $.getJSON(weatherURL, function(data) {
-        var forecastContainer = $('#forecastContainer');
-        forecastContainer.fadeOut(300, function() {
+    forecastContainer.fadeOut(300, function() {
+        $('.loader').removeClass('hide');
+
+        $.getJSON(weatherURL, function(data) {
             dailyWeatherData = formatForecastData(data.forecast);
             displayCurrentWeather(data.weather, forecastContainer);
             
@@ -60,6 +61,7 @@ function loadWeather(suggestion) {
                 forecastCards[i].removeClass('active');
             }
 
+            $('.loader').addClass('hide');
             // make the forecast visible again only after the content is loaded
             forecastContainer.removeClass('hide');
             forecastContainer.fadeIn(300);
