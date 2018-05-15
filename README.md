@@ -1,4 +1,4 @@
-# MyWeatherApp
-Simple weather web app for a recruiting challenge.
+# CloudWeather
+Simple web app for 5 day weather forecasts.
 
-[http://www.myweatherapp.ml](http://www.myweatherapp.ml)
+[http://cloudweather.tk](http://cloudweather.tk)
