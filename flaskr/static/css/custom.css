@@ -35,7 +35,7 @@ main {
 }
 
 .navbar-brand > img {
-    height: 1.5rem;
+    height: 26px;
 }
 
 #locationInput {
