@@ -34,6 +34,10 @@ main {
     padding-bottom: 0;
 }
 
+.navbar-brand > img {
+    height: 1.5rem;
+}
+
 #locationInput {
     margin-top: 2rem;
     margin-bottom: 0;
