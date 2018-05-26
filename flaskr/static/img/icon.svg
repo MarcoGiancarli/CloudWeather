@@ -16,7 +16,10 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    viewBox="0 0 512 512"
-   sodipodi:docname="icon.svg">
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/home/marco/Documents/projects/recruiting_projects/limosys/CloudWeather/flaskr/static/img/icon128.png"
+   inkscape:export-xdpi="22.5"
+   inkscape:export-ydpi="22.5">
   <defs
      id="defs3458">
     <linearGradient
@@ -44,8 +47,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.2432572"
-     inkscape:cx="184.83807"
-     inkscape:cy="236.27093"
+     inkscape:cx="184.03373"
+     inkscape:cy="261.22091"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -57,14 +60,15 @@
      inkscape:window-maximized="1"
      inkscape:snap-object-midpoints="false"
      inkscape:snap-others="true"
-     inkscape:object-nodes="true"
+     inkscape:object-nodes="false"
      inkscape:snap-bbox="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:object-paths="true"
-     inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-intersection-paths="false"
+     inkscape:object-paths="false"
+     inkscape:snap-bbox-midpoints="false"
+     inkscape:snap-bbox-edge-midpoints="false"
      inkscape:bbox-nodes="true"
-     inkscape:bbox-paths="true" />
+     inkscape:bbox-paths="true"
+     inkscape:snap-nodes="false" />
   <metadata
      id="metadata3461">
     <rdf:RDF>
@@ -83,10 +87,10 @@
      inkscape:groupmode="layer"
      transform="translate(0,448)">
     <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#a0a0a0;stroke-width:19.24811935;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 176.82895,-300.1391 a 96.240602,96.240602 0 0 0 -96.240604,96.2406 96.240602,96.240602 0 0 0 0.518797,9.07895 96.240602,96.240602 0 0 0 -71.4830833,92.95489 96.240602,96.240602 0 0 0 96.2406003,96.2406003 l 319.5188,0 a 76.992477,76.992477 0 0 0 76.99248,-76.9924813 76.992477,76.992477 0 0 0 -70.06203,-76.644739 125.11278,125.11278 0 0 0 0.45113,-9.02819 125.11278,125.11278 0 0 0 -125.11279,-125.11278 125.11278,125.11278 0 0 0 -65.73872,18.76879 96.240602,96.240602 0 0 0 -65.08458,-25.50564 z"
-       id="path4662"
-       inkscape:connector-curvature="0" />
+       style="opacity:1;fill:#a0a0a0;fill-opacity:0.72988503;stroke:none;stroke-width:19.24811935;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 173.99219 125.53125 A 100.14688 100.14688 0 0 0 73.84375 225.67773 A 100.14688 100.14688 0 0 0 74.384766 235.125 A 100.14688 100.14688 0 0 0 0 331.85352 A 100.14688 100.14688 0 0 0 100.14648 432 L 432.63477 432 A 80.117496 80.117496 0 0 0 512.75195 351.88281 A 80.117496 80.117496 0 0 0 439.8457 272.12695 A 130.19094 130.19094 0 0 0 440.31641 262.73242 A 130.19094 130.19094 0 0 0 310.125 132.54102 A 130.19094 130.19094 0 0 0 241.71875 152.07227 A 100.14688 100.14688 0 0 0 173.99219 125.53125 z M 135.01172 229.08789 C 140.71364 229.08789 146.26175 229.80108 151.6582 231.22656 C 157.05466 232.55022 161.63696 234.12818 165.4043 235.96094 C 169.27345 237.69188 173.14256 240.13655 177.01172 243.29297 C 180.9827 246.44939 184.03756 249.04563 186.17578 251.08203 C 188.314 253.11843 190.65567 255.91872 193.20117 259.48242 C 195.84849 263.04612 197.47697 265.33532 198.08789 266.35352 C 198.69881 267.37172 199.76958 269.1032 201.29688 271.54688 L 180.37109 283.30664 C 178.84379 280.5575 177.41936 278.26635 176.0957 276.43359 C 174.87386 274.49901 172.78676 271.90277 169.83398 268.64453 C 166.98303 265.38629 164.02921 262.73952 160.97461 260.70312 C 158.02183 258.56491 154.25573 256.73238 149.67383 255.20508 C 145.09193 253.57596 140.20454 252.76172 135.01172 252.76172 C 121.16421 252.76172 109.14879 258.10773 98.966797 268.79883 C 88.886622 279.48992 83.847656 292.72572 83.847656 308.50781 C 83.847656 324.2899 88.937146 337.67923 99.119141 348.67578 C 109.40296 359.67234 121.36785 365.16992 135.01172 365.16992 C 140.40818 365.16992 145.55014 364.25463 150.4375 362.42188 C 155.32486 360.58912 159.24449 358.65359 162.19727 356.61719 C 165.15004 354.58079 168.10191 351.78049 171.05469 348.2168 C 174.10929 344.55128 176.04482 342.05803 176.85938 340.73438 C 177.67393 339.41072 178.84379 337.42466 180.37109 334.77734 L 201.29688 345.92578 C 184.90386 374.23173 162.80856 388.38477 135.01172 388.38477 C 121.16421 388.38477 108.48808 384.77023 96.982422 377.54102 C 85.476768 370.3118 76.465695 360.64001 69.949219 348.52344 C 63.534562 336.30504 60.326172 323.06729 60.326172 308.8125 C 60.326172 294.65953 63.534562 281.52478 69.949219 269.4082 C 76.465695 257.18981 85.476768 247.41502 96.982422 240.08398 C 108.48808 232.75295 121.16421 229.08789 135.01172 229.08789 z M 314.09961 229.08789 L 364.95898 327.59961 L 410.01562 231.22656 L 436.13086 231.22656 L 364.95898 388.69141 L 313.64258 285.9043 L 262.7832 388.69141 L 191 231.22656 L 217.26953 231.22656 L 263.08789 327.59961 L 314.09961 229.08789 z "
+       transform="translate(0,-448)"
+       id="path4662" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot6205"
@@ -111,18 +115,5 @@
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:IPAexGothic;-inkscape-font-specification:'IPAexGothic, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
            ry="0" /></flowRegion><flowPara
          id="flowPara6219"
-         style="-inkscape-font-specification:'IPAexGothic, Normal';font-family:IPAexGothic;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:312.5px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">cw</flowPara></flowRoot>    <flowRoot
-       xml:space="preserve"
-       id="flowRoot6221"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:287.5px;line-height:125%;font-family:Sawasdee;-inkscape-font-specification:'Sawasdee, Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(31.369212,-431.91322)"><flowRegion
-         id="flowRegion6223"><rect
-           id="rect6225"
-           width="477.77725"
-           height="337.01791"
-           x="34.586571"
-           y="157.28659"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:287.5px;line-height:125%;font-family:Sawasdee;-inkscape-font-specification:'Sawasdee, Bold';text-align:start;writing-mode:lr-tb;text-anchor:start" /></flowRegion><flowPara
-         id="flowPara6227"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:262.5px;line-height:125%;font-family:Sawasdee;-inkscape-font-specification:'Sawasdee, Bold';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#a0a0a0;fill-opacity:1">cw</flowPara></flowRoot>  </g>
+         style="-inkscape-font-specification:'IPAexGothic, Normal';font-family:IPAexGothic;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:312.5px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">cw</flowPara></flowRoot>  </g>
 </svg>
