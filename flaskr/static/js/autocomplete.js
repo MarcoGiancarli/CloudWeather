@@ -158,7 +158,7 @@ function WeatherDay(weather3Hour) {
     var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 
             'July', 'August', 'September', 'October', 'November', 'December'];
     
-	this.high = weather3Hour.high;
+    this.high = weather3Hour.high;
     this.low = weather3Hour.low;
     this.peakHumid = weather3Hour.humid;
     this.peakWind = weather3Hour.wind;
@@ -169,7 +169,7 @@ function WeatherDay(weather3Hour) {
     this.date = MONTHS[weather3Hour.dt.getMonth()] + ' ' + 
             weather3Hour.dt.getDate().toString();
 
-    this.updateDayValues = function (weather3Hour) {
+    this.updateDayValues = (weather3Hour) => {
         if(this.high < weather3Hour.high) {
             this.high = weather3Hour.high;
         }
