@@ -162,28 +162,38 @@ function WeatherDay(weather3Hour) {
     this.low = weather3Hour.low;
     this.peakHumid = weather3Hour.humid;
     this.peakWind = weather3Hour.wind;
-    this.totalRain = weather3Hour.rain;
+    if(typeof weather3Hour.rain != 'undefined') {
+        this.totalRain = weather3Hour.rain;
+    } else {
+        this.totalRain = 0
+    }
     this.totalSnow = weather3Hour.snow;
+    if(typeof weather3Hour.snow != 'undefined') {
+        this.totalSnow = weather3Hour.snow;
+    } else {
+        this.totalSnow = 0
+    }
     this.dataPoints = [weather3Hour];
     this.dayOfWeek = DAYS[weather3Hour.dt.getDay()];
     this.date = MONTHS[weather3Hour.dt.getMonth()] + ' ' + 
             weather3Hour.dt.getDate().toString();
 
+    var that = this;
     this.updateDayValues = (weather3Hour) => {
-        if(this.high < weather3Hour.high) {
-            this.high = weather3Hour.high;
+        if(that.high < weather3Hour.high) {
+            that.high = weather3Hour.high;
         }
-        if(this.low > weather3Hour.low) {
-            this.low = weather3Hour.low;
+        if(that.low > weather3Hour.low) {
+            that.low = weather3Hour.low;
         }
-        if(this.peakHumid < weather3Hour.humid) {
-            this.peakHumid = weather3Hour.humid;
+        if(that.peakHumid < weather3Hour.humid) {
+            that.peakHumid = weather3Hour.humid;
         }
-        if(this.peakWind < weather3Hour.wind) {
-            this.peakWind = weather3Hour.wind;
+        if(that.peakWind < weather3Hour.wind) {
+            that.peakWind = weather3Hour.wind;
         }
-        this.totalRain += weather3Hour.rain;
-        this.totalSnow += weather3Hour.snow;
+        that.totalRain += weather3Hour.rain;
+        that.totalSnow += weather3Hour.snow;
     }
 }
 
