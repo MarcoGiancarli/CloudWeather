@@ -103,7 +103,7 @@ function formatForecastData(data) {
         var dayOfMonth = weather3Hour.dt.getDate().toString();
         if(dayOfMonth in daysSeen) {
             var currentDay = dailyWeather[dailyWeather.length-1];
-            currentDay.updateDayValues(currentDay, weather3Hour);
+            currentDay.updateDayValues(weather3Hour);
             currentDay.dataPoints.push(weather3Hour);
         } else {
             daysSeen[dayOfMonth] = dailyWeather.length;
@@ -178,22 +178,22 @@ function WeatherDay(weather3Hour) {
     this.date = MONTHS[weather3Hour.dt.getMonth()] + ' ' + 
             weather3Hour.dt.getDate().toString();
 
-    var that = this;
+    var weatherDay = this;
     this.updateDayValues = (weather3Hour) => {
-        if(that.high < weather3Hour.high) {
-            that.high = weather3Hour.high;
+        if(weatherDay.high < weather3Hour.high) {
+            weatherDay.high = weather3Hour.high;
         }
-        if(that.low > weather3Hour.low) {
-            that.low = weather3Hour.low;
+        if(weatherDay.low > weather3Hour.low) {
+            weatherDay.low = weather3Hour.low;
         }
-        if(that.peakHumid < weather3Hour.humid) {
-            that.peakHumid = weather3Hour.humid;
+        if(weatherDay.peakHumid < weather3Hour.humid) {
+            weatherDay.peakHumid = weather3Hour.humid;
         }
-        if(that.peakWind < weather3Hour.wind) {
-            that.peakWind = weather3Hour.wind;
+        if(weatherDay.peakWind < weather3Hour.wind) {
+            weatherDay.peakWind = weather3Hour.wind;
         }
-        that.totalRain += weather3Hour.rain;
-        that.totalSnow += weather3Hour.snow;
+        weatherDay.totalRain += weather3Hour.rain;
+        weatherDay.totalSnow += weather3Hour.snow;
     }
 }
 
